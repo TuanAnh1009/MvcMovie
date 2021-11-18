@@ -2,32 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MvcMovie.Data;
 
 namespace MvcMovie.Migrations
 {
     [DbContext(typeof(MvcMovieContext))]
-    partial class MvcMovieContextModelSnapshot : ModelSnapshot
+    [Migration("20211118003842_Table_People")]
+    partial class Table_People
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.11");
-
-            modelBuilder.Entity("MvcMovie.Models.Category", b =>
-                {
-                    b.Property<string>("CategoryID")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CategoryName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("CategoryID");
-
-                    b.ToTable("Category");
-                });
 
             modelBuilder.Entity("MvcMovie.Models.Employee", b =>
                 {
@@ -44,30 +33,6 @@ namespace MvcMovie.Migrations
                     b.HasKey("EmployeeID");
 
                     b.ToTable("Employee");
-                });
-
-            modelBuilder.Entity("MvcMovie.Models.Hang", b =>
-                {
-                    b.Property<string>("HangID")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CategoryID")
-                        .HasColumnType("TEXT");
-
-                    b.Property<float>("Gia")
-                        .HasColumnType("REAL");
-
-                    b.Property<string>("HangName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Soluong")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("HangID");
-
-                    b.HasIndex("CategoryID");
-
-                    b.ToTable("Hang");
                 });
 
             modelBuilder.Entity("MvcMovie.Models.Movie", b =>
@@ -170,20 +135,6 @@ namespace MvcMovie.Migrations
                     b.ToTable("Person");
 
                     b.HasDiscriminator().HasValue("People");
-                });
-
-            modelBuilder.Entity("MvcMovie.Models.Hang", b =>
-                {
-                    b.HasOne("MvcMovie.Models.Category", "Category")
-                        .WithMany("Hang")
-                        .HasForeignKey("CategoryID");
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("MvcMovie.Models.Category", b =>
-                {
-                    b.Navigation("Hang");
                 });
 #pragma warning restore 612, 618
         }
