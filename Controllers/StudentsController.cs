@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MvcMovie.Data;
 using MvcMovie.Models;
-
+using MvcMovie.Models.Process;
 namespace MvcMovie.Controllers
 {
     public class StudentsController : Controller
     {
         private readonly MvcMovieContext _context;
+        private readonly StringProcess _strPro;
 
-        public StudentsController(MvcMovieContext context)
+        public StudentsController(MvcMovieContext context, StringProcess strPro)
         {
             _context = context;
+            _strPro = strPro;
         }
 
         // GET: Students
@@ -44,8 +46,18 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Students/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            string strKey = "";
+            var Studentlist = _context.Student.ToList();
+            if(Studentlist.Count() == 0){
+                strKey = "STD001";
+            }
+            else{
+                var STId = Studentlist.OrderByDescending(m => m.StudentId).FirstOrDefault().StudentId;
+                strKey =strPro.GenerateKey(STId);
+            }
+            ViewBag.STKey = strKey;
             return View();
         }
 
